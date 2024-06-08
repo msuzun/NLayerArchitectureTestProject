@@ -67,17 +67,33 @@ namespace TestProject.Core.DataAccess.EntityFrameworkCore
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            using (var context = new TContext())
+            {
+                return filter == null ? context.Set<TEntity>().ToList()
+                                        : context.Set<TEntity>().Where(filter).ToList();
+            }
         }
 
         public TEntity Update(TEntity entity)
         {
-            throw new NotImplementedException();
+            using(var context = new TContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                context.SaveChanges();
+                return entity;
+            }
         }
 
-        public Task<TEntity> UpdateAsync(TEntity entity)
+        public async Task<TEntity> UpdateAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (var context = new TContext())
+            {
+                var updatedEntity = context.Entry(entity);
+                updatedEntity.State = EntityState.Modified;
+                await context.SaveChangesAsync();
+                return entity;
+            }
         }
     }
 }
