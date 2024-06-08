@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,27 +15,54 @@ namespace TestProject.Core.DataAccess.EntityFrameworkCore
     {
         public TEntity Add(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (var context = new TContext())
+            {
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                context.SaveChanges();
+                return entity;
+            }
         }
 
-        public Task<TEntity> AddAsync(TEntity entity)
+        public async Task<TEntity> AddAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (var context = new TContext())
+            {
+                var addedEntity = context.Entry(entity);
+                addedEntity.State = EntityState.Added;
+                await context.SaveChangesAsync();
+                return entity;
+            }
         }
 
         public void Delete(TEntity entity)
         {
-            throw new NotImplementedException();
+            using(var context = new TContext())
+            {
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                context.SaveChanges();
+            }
         }
 
-        public Task DeleteAsync(TEntity entity)
+        public async Task DeleteAsync(TEntity entity)
         {
-            throw new NotImplementedException();
+            using (var context = new TContext())
+            {
+                var deletedEntity = context.Entry(entity);
+                deletedEntity.State = EntityState.Deleted;
+                await context.SaveChangesAsync();
+            }
         }
+    
 
         public TEntity Get(Expression<Func<TEntity, bool>> filter = null)
         {
-            throw new NotImplementedException();
+            using(var context = new TContext())
+            {
+                return context.Set<TEntity>().SingleOrDefault(filter);
+            }
+            
         }
 
         public List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null)
