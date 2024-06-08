@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace TestProject.MvcWebUI.Models
         public Product Product { get; set; }
         public List<ProductCategoryComplextData> Products { get; set; }
         public List<SelectListItem> Categories { get; set; }
+        public List<IFormFile> FormFiles { get; set; }
     }
 }

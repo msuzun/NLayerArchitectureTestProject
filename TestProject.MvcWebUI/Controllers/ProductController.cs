@@ -63,7 +63,7 @@ namespace TestProject.MvcWebUI.Controllers
                 };
                 try
                 {
-                    _productService.Add(productForAdd);
+                    var addedProduct = _productService.Add(productForAdd);
                     return RedirectToAction("GetProducts");
                 }
                 catch (Exception)

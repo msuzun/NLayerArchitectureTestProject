@@ -57,7 +57,7 @@
 
 <div id="product-adding-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
-        <form asp-controller="Product" asp-action="Add" method="post">
+        <form asp-controller="Product" asp-action="Add" method="post" enctype="multipart/form-data">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -92,6 +92,10 @@
                             <div class="form-group">
                                 <label for="field-6" class="control-label">Explanation</label>
                                 <textarea asp-for="@Model.Product.Explanation" type="text" class="form-control autogrow" id="field-1" placeholder="Write something about product" style="overflow:hidden;word-wrap:break-word; resize:horizontal; height:104px;"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="field-13" class="control-label">Ürün Resim</label>
+                                <input type="file" asp-items="@Model.FormFiles" name="formFiles" class="dropify" multiple data-show-upload="true" data-height="85" />
                             </div>
                         </div>
                     </div>
