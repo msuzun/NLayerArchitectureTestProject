@@ -32,6 +32,10 @@ namespace TestProject.MvcWebUI
 
             services.AddSingleton<IProductService, ProductManager>();
             services.AddSingleton<IProductDal, EfProductDal>();
+
+            services.AddSingleton<IProductImageService, ProductImageManager>();
+            services.AddSingleton<IProductImageDal, EfProductImageDal>();
+
             services.AddControllersWithViews();
         }
 
