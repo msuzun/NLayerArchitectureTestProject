@@ -37,6 +37,22 @@ namespace TestProject.MvcWebUI.Controllers
                 ).ToList();
             return categories;
         }
+        public IActionResult GetProductDetail(int id)
+        {
+            if (id > 0)
+            {
+                var productIsValid = _productService.GetById(id);
+                var productImages = _productImageService.GetListByProductId(id);
+                var productViewModel = new ProductViewModel
+                {
+                    Product = productIsValid,
+                    ProductImages = productImages,
+                    Categories = LoadCategories()
+                };
+                return View(productViewModel);
+            }
+            return RedirectToAction("GetProducts");
+        }
         public IActionResult GetProducts()
         {
             var productViewModel = new ProductViewModel
@@ -74,10 +90,11 @@ namespace TestProject.MvcWebUI.Controllers
                     {
                         foreach (var image in productViewModel.FormFiles)
                         {
-                            string uploadsFolder = Path.Combine(_env.WebRootPath, "ProductImages");
                             var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
-                            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
-                            image.CopyTo(new FileStream(filePath, FileMode.Create));
+                            var filePath = Path.DirectorySeparatorChar.ToString() + "ProductImages" + Path.DirectorySeparatorChar.ToString() + uniqueFileName;
+                            var upLoadsFolder = Path.Combine(_env.WebRootPath, "ProductImages");
+                            var filePathForCopy = Path.Combine(upLoadsFolder, uniqueFileName);
+                            image.CopyTo(new FileStream(filePathForCopy, FileMode.Create));
                             var productImageForAdd = new ProductImage
                             {
                                 AddedBy = "Sevki",

@@ -12,6 +12,7 @@ namespace TestProject.MvcWebUI.Models
     public class ProductViewModel
     {
         public Product Product { get; set; }
+        public List<ProductImage> ProductImages { get; set; }
         public List<ProductCategoryComplextData> Products { get; set; }
         public List<SelectListItem> Categories { get; set; }
         public List<IFormFile> FormFiles { get; set; }

@@ -31,22 +31,24 @@
 
                             <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
                             <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
+                            <th rowspan="1" colspan="1" style="width: 50px; display: none" ;>&</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach (var product in Model.Products)
                         {
-                            <tr role="row" class="odd">
-                                <td class="sorting_1" tabindex="0">@product.ProductId</td>
-                                <td>@product.ProductName</td>
-                                <td>@product.CategoryName</td>
-                                <td>@product.Height</td>
-                                <td>@product.Weight</td>
-                                <td>@product.Width</td>
+                        <tr role="row" class="odd">
+                            <td class="sorting_1" tabindex="0">@product.ProductId</td>
+                            <td>@product.ProductName</td>
+                            <td>@product.CategoryName</td>
+                            <td>@product.Height</td>
+                            <td>@product.Weight</td>
+                            <td>@product.Width</td>
 
-                                <td align="center"><button class="btn btn-purple" data-toggle="modal" data-target="#category-updating-modal" onclick="editProduct(@product.ProductId)">Edit</button></td>
-                                <td align="center"><button class="btn btn-danger" onclick="deleteProduct(@product.ProductId)">Delete</button></td>
-                            </tr>
+                            <td align="center"><button class="btn btn-purple" data-toggle="modal" data-target="#category-updating-modal" onclick="editProduct(@product.ProductId)">Edit</button></td>
+                            <td align="center"><button class="btn btn-danger" onclick="deleteProduct(@product.ProductId)">Delete</button></td>
+                            <td align="center"><a href="/Product/GetProductDetail/@product.ProductId" class="btn btn-info">Detail</a></td>
+                        </tr>
                         }
                     </tbody>
                 </table>
