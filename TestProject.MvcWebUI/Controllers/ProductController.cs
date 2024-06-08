@@ -101,5 +101,20 @@ namespace TestProject.MvcWebUI.Controllers
             }
             return RedirectToAction("GetProducts");
         }
+
+        public JsonResult Delete(int id)
+        {
+            if (id > 0)
+            {
+                var productIsValid = _productService.GetById(id);
+                if (productIsValid == null)
+                {
+                    return Json(0);
+                }
+                _productService.Delete(productIsValid);
+                return Json(1);
+            }
+            return Json(0);
+        }
     }
 }

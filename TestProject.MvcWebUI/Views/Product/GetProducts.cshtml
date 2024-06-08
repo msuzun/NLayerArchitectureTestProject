@@ -191,4 +191,16 @@
                 $('#product-updating-modal').modal('show');
             });
     }
+    function deleteProduct(id) {
+        $.get("/Product/Delete", { id: id })
+            .done(function (result) {
+                if (result == 0) {
+                    swal("Warning!", "Bir hata oluştu", "warning");
+
+                }
+                else {
+                    location.reload();
+                }
+            });
+    }
 </script>
