@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.DataAccess", "T
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.Business", "TestProject.Business\TestProject.Business.csproj", "{DD40156D-1689-40AD-8EB6-40CA0DC69A44}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject.MvcWebUI", "TestProject.MvcWebUI\TestProject.MvcWebUI.csproj", "{F332429F-691E-4C5B-A9B9-35F76C31CA97}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DD40156D-1689-40AD-8EB6-40CA0DC69A44}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD40156D-1689-40AD-8EB6-40CA0DC69A44}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD40156D-1689-40AD-8EB6-40CA0DC69A44}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F332429F-691E-4C5B-A9B9-35F76C31CA97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F332429F-691E-4C5B-A9B9-35F76C31CA97}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F332429F-691E-4C5B-A9B9-35F76C31CA97}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F332429F-691E-4C5B-A9B9-35F76C31CA97}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
