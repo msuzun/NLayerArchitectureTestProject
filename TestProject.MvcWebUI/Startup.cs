@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,6 +36,40 @@ namespace TestProject.MvcWebUI
 
             services.AddSingleton<IProductImageService, ProductImageManager>();
             services.AddSingleton<IProductImageDal, EfProductImageDal>();
+
+            services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 6;
+                options.Password.RequireUppercase = true;
+
+                options.Lockout.MaxFailedAccessAttempts = 5;
+                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(15);
+                options.Lockout.AllowedForNewUsers = true;
+
+                options.User.RequireUniqueEmail = true;
+                options.SignIn.RequireConfirmedEmail = true;
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+            });
+
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Security/Login";
+                options.LogoutPath = "/Security/Logout";
+                options.AccessDeniedPath = "/Security/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.Cookie = new Microsoft.AspNetCore.Http.CookieBuilder
+                {
+                    HttpOnly = true,
+                    Name = "TestProject.Cookie",
+                    Path = "/",
+                    SameSite = Microsoft.AspNetCore.Http.SameSiteMode.Lax,
+                    SecurePolicy = Microsoft.AspNetCore.Http.CookieSecurePolicy.SameAsRequest
+
+                };
+
+            });
 
             services.AddControllersWithViews();
         }
