@@ -29,6 +29,9 @@ namespace TestProject.MvcWebUI
         {
             services.AddSingleton<ICategoryService, CategoryManager>();
             services.AddSingleton<ICategoryDal, EfCategoryDal>();
+
+            services.AddSingleton<IProductService, ProductManager>();
+            services.AddSingleton<IProductDal, EfProductDal>();
             services.AddControllersWithViews();
         }
 

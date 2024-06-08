@@ -15,6 +15,6 @@ namespace TestProject.Entity.Concreate
         public string Width { get; set; }
         public string Explanation { get; set; }
         public string AddedBy { get; set; }
-        public string AddedDate { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }
