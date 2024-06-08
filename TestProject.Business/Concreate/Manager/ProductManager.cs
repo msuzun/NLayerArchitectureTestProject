@@ -4,6 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TestProject.Business.Abstract;
 using TestProject.DataAccess.Abstract;
+using TestProject.Entity.ComplexTypes;
 using TestProject.Entity.Concreate;
 
 namespace TestProject.Business.Concreate.Manager
@@ -48,6 +49,11 @@ namespace TestProject.Business.Concreate.Manager
         public List<Product> GetListByCategoryId(int categoryId)
         {
             return _productDal.GetAll(d => d.CategoryId == categoryId);
+        }
+
+        public List<ProductCategoryComplextData> GetProductWithCategory()
+        {
+            return _productDal.GetProductWithCategory();
         }
 
         public Product Update(Product product)

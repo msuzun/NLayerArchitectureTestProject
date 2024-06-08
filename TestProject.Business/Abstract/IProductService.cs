@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using TestProject.Entity.ComplexTypes;
 using TestProject.Entity.Concreate;
 
 namespace TestProject.Business.Abstract
@@ -17,5 +18,6 @@ namespace TestProject.Business.Abstract
         Product GetByName(string name);
         List<Product> GetList();
         List<Product> GetListByCategoryId(int categoryId);
+        List<ProductCategoryComplextData> GetProductWithCategory();
     }
 }

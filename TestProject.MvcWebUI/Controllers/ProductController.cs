@@ -35,7 +35,7 @@ namespace TestProject.MvcWebUI.Controllers
         {
             var productViewModel = new ProductViewModel
             {
-                Products = _productService.GetList(),
+                Products = _productService.GetProductWithCategory(),
                 Categories = LoadCategories()
 
         };

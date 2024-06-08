@@ -37,15 +37,15 @@
                         @foreach (var product in Model.Products)
                         {
                             <tr role="row" class="odd">
-                                <td class="sorting_1" tabindex="0">@product.Id</td>
-                                <td>@product.Name</td>
-                                <td>@product.CategoryId</td>
+                                <td class="sorting_1" tabindex="0">@product.ProductId</td>
+                                <td>@product.ProductName</td>
+                                <td>@product.CategoryName</td>
                                 <td>@product.Height</td>
                                 <td>@product.Weight</td>
                                 <td>@product.Width</td>
 
-                                <td align="center"><button class="btn btn-purple" data-toggle="modal" data-target="#category-updating-modal" onclick="editProduct(@product.Id)">Edit</button></td>
-                                <td align="center"><button class="btn btn-danger" onclick="deleteProduct(@product.Id)">Delete</button></td>
+                                <td align="center"><button class="btn btn-purple" data-toggle="modal" data-target="#category-updating-modal" onclick="editProduct(@product.ProductId)">Edit</button></td>
+                                <td align="center"><button class="btn btn-danger" onclick="deleteProduct(@product.ProductId)">Delete</button></td>
                             </tr>
                         }
                     </tbody>
