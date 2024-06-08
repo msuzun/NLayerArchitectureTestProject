@@ -12,6 +12,6 @@ namespace TestProject.Entity.Concreate
         public string FileName { get; set; }
         public string FilePath { get; set; }
         public string AddedBy { get; set; }
-        public string AddedDate { get; set; }
+        public DateTime AddedDate { get; set; }
     }
 }

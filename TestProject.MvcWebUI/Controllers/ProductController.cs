@@ -1,7 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using TestProject.Business.Abstract;
@@ -14,10 +16,14 @@ namespace TestProject.MvcWebUI.Controllers
     {
         IProductService _productService;
         ICategoryService _categoryService;
-        public ProductController(IProductService productService,ICategoryService categoryService)
+        IProductImageService _productImageService;
+        IHostingEnvironment _env;
+        public ProductController(IProductService productService,ICategoryService categoryService, IProductImageService productImageService, IHostingEnvironment env)
         {
             _productService = productService;
             _categoryService = categoryService;
+            _productImageService = productImageService;
+            _env = env;
         }
         private List<SelectListItem> LoadCategories()
         {
@@ -64,9 +70,28 @@ namespace TestProject.MvcWebUI.Controllers
                 try
                 {
                     var addedProduct = _productService.Add(productForAdd);
+                    if (productViewModel.FormFiles != null)
+                    {
+                        foreach (var image in productViewModel.FormFiles)
+                        {
+                            string uploadsFolder = Path.Combine(_env.WebRootPath, "ProductImages");
+                            var uniqueFileName = Guid.NewGuid().ToString() + "_" + image.FileName;
+                            var filePath = Path.Combine(uploadsFolder, uniqueFileName);
+                            image.CopyTo(new FileStream(filePath, FileMode.Create));
+                            var productImageForAdd = new ProductImage
+                            {
+                                AddedBy = "Sevki",
+                                AddedDate = DateTime.Now,
+                                ProductId = addedProduct.Id,
+                                FileName = uniqueFileName,
+                                FilePath = filePath
+                            };
+                            _productImageService.Add(productImageForAdd);
+                        }
+                    }
                     return RedirectToAction("GetProducts");
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
 
                     return RedirectToAction("GetProducts");

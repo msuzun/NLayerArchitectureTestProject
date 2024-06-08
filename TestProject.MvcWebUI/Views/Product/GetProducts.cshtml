@@ -217,15 +217,19 @@
                 $.get("/Product/Delete", { id: id })
                     .done(function (result) {
                         if (result == 0) {
+
                             swal({
                                 title: "Warning",
-                                text: "Bir hata oluştu",
+                                text: "Bir hata oluştu!",
                                 icon: "warning",
-                                timer: 3000,
-                              
-                            }).then(function () {
-                                location.reload();
+                                timer: 3000, // Mesajın görünme süresi (milisaniye cinsinden)
+                                buttons: false, // Tamam butonunu gizler
+                                closeOnClickOutside: false // Mesaj dışına tıklayınca kapanmaması için
                             });
+
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000); // Mesajın kapanma süresiyle aynı olmalı
                         }
                         else {
 
@@ -233,11 +237,14 @@
                                 title: "Basarili",
                                 text: "İşleminiz başarılı bir şekilde gerçekleştirildi!",
                                 icon: "success",
-                                timer: 3000, 
-                             
-                            }).then(function () {
-                                location.reload();
+                                timer: 3000, // Mesajın görünme süresi (milisaniye cinsinden)
+                                buttons: false, // Tamam butonunu gizler
+                                closeOnClickOutside: false // Mesaj dışına tıklayınca kapanmaması için
                             });
+
+                            setTimeout(function () {
+                                location.reload();
+                            }, 3000); // Mesajın kapanma süresiyle aynı olmalı
                         }
                     });
             }

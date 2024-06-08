@@ -11,7 +11,7 @@ namespace TestProject.DataAccess.Concreate.EntityFrameworkCore.Mappings
     {
         public void Configure(EntityTypeBuilder<ProductImage> builder)
         {
-            builder.ToTable(@"ProductImage", @"dbo");
+            builder.ToTable(@"ProductImages", @"dbo");
 
             builder.HasKey(d => d.Id);
 
