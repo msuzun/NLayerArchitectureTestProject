@@ -72,19 +72,19 @@
                             </div>
                             <div class="form-group">
                                 <label for="field-1" class="control-label">Category</label>
-                                <input asp-for="@Model.Product.CategoryId" type="text" class="form-control" id="field-1" placeholder="e.g. T-Shirts">
+                                <input asp-for="@Model.Product.CategoryId" type="text" class="form-control" id="field-2" placeholder="e.g. T-Shirts">
                             </div>
                             <div class="form-group">
                                 <label for="field-1" class="control-label">Height</label>
-                                <input asp-for="@Model.Product.Height" type="text" class="form-control" id="field-1" placeholder="e.g. T-Shirts">
+                                <input asp-for="@Model.Product.Height" type="text" class="form-control" id="field-3" placeholder="e.g. T-Shirts">
                             </div>
                             <div class="form-group">
                                 <label for="field-1" class="control-label">Weight</label>
-                                <input asp-for="@Model.Product.Weight" type="text" class="form-control" id="field-1" placeholder="e.g. T-Shirts">
+                                <input asp-for="@Model.Product.Weight" type="text" class="form-control" id="field-4" placeholder="e.g. T-Shirts">
                             </div>
                             <div class="form-group">
                                 <label for="field-1" class="control-label">Name</label>
-                                <input asp-for="@Model.Product.Width" type="Width" class="form-control" id="field-1" placeholder="e.g. T-Shirts">
+                                <input asp-for="@Model.Product.Width" type="Width" class="form-control" id="field-5" placeholder="e.g. T-Shirts">
                             </div>
                         </div>
                     </div>
@@ -97,3 +97,86 @@
         </form>
     </div>
 </div><!-- /.modal -->
+<div id="product-updating-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <form asp-controller="Product" asp-action="Edit" method="post">
+          
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><i class="fa fa-refresh"></i> Update Product</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Id</label>
+                                <input asp-for="@Model.Product.Id" type="text" class="form-control" id="productId" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Name</label>
+                                <input asp-for="@Model.Product.Name" type="text" class="form-control" id="NameForUpdate" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">CategoryId</label>
+                                <input asp-for="@Model.Product.CategoryId" type="text" class="form-control" id="CategoryForUpdate" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Height</label>
+                                <input asp-for="@Model.Product.Height" type="text" class="form-control" id="HeightForUpdate" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Weight</label>
+                                <input asp-for="@Model.Product.Weight" type="text" class="form-control" id="WeightForUpdate" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Width</label>
+                                <input asp-for="@Model.Product.Width" type="text" class="form-control" id="WidthForUpdate" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-purple waves-effect waves-light">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- /.modal -->
+
+<script type="text/javascript">
+    function editProduct(id) {
+        $.get("/Product/Edit", { id: id })
+            .done(function (result) {
+                $('#productId').val(result.id);
+                $('#NameForUpdate').val(result.name);
+                $('#CategoryForUpdate').val(result.categoryId);
+                $('#HeightForUpdate').val(result.height);
+                $('#WeightForUpdate').val(result.weight);
+                $('#WidthForUpdate').val(result.width);
+                $('#product-updating-modal').modal('show');
+            });
+    }
+</script>

@@ -57,5 +57,49 @@ namespace TestProject.MvcWebUI.Controllers
             }
             return RedirectToAction("GetProducts");
         }
+        public JsonResult Edit(int id)
+        {
+            if (id > 0)
+            {
+                var result = _productService.GetById(id);
+                return Json(result);
+            }
+            return Json(0);
+        }
+        [HttpPost]
+        public IActionResult Edit(ProductViewModel productViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var productIsValid = _productService.GetById(productViewModel.Product.Id);
+                if (productIsValid == null)
+                {
+                    return RedirectToAction("GetProducts");
+                }
+                try
+                {
+                    var productForAdd = new Product
+                    {
+                        AddedBy = productIsValid.AddedBy,
+                        AddedDate = productIsValid.AddedDate,
+                        CategoryId = productViewModel.Product.CategoryId,
+                        Name = productViewModel.Product.Name,
+                        Explanation = productIsValid.Explanation,
+                        Id = productIsValid.Id,
+                        Height = productViewModel.Product.Height,
+                        Weight = productViewModel.Product.Weight,
+                        Width = productViewModel.Product.Width
+                    };
+                    _productService.Update(productForAdd);
+                    return RedirectToAction("GetProducts");
+                }
+                catch (Exception)
+                {
+
+                    return RedirectToAction("GetProducts");
+                }
+            }
+            return RedirectToAction("GetProducts");
+        }
     }
 }
