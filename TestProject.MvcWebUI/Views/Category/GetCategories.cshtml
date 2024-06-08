@@ -3,7 +3,6 @@
     ViewData["Title"] = "GetCategories";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <div class="row">
     <div class="col-sm-12">
         <div class="card-box table-responsive">
@@ -50,6 +49,7 @@
         </div>
     </div><!-- end col -->
 </div>
+
 <div id="category-adding-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <form asp-controller="Category" asp-action="Add" method="post">
@@ -77,5 +77,63 @@
     </div>
 </div><!-- /.modal -->
 
+<div id="category-updating-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <form asp-controller="Category" asp-action="Edit" method="post">
+            <input asp-for="@Model.Category.Id" id="categoryId" hidden />
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><i class="fa fa-refresh"></i> Update Category</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Name</label>
+                                <input asp-for="@Model.Category.Name" type="text" class="form-control" id="categoryName" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group no-margin">
+                                <label for="field-7" class="control-label">Is Active</label>
+                                <input asp-for="@Model.Category.IsActive" class="form-control checkbox" id="categoryIsActive" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-purple waves-effect waves-light">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- /.modal -->
 
+<script type="text/javascript">
+    function editCategory(id) {
+        $.get("/Category/Edit", { id: id })
+            .done(function (category) {
+                $('#categoryId').val(category.id);
+                $('#categoryName').val(category.name);
+                $('#categoryIsActive').val(category.isActive);
+                $('#category-updating-modal').modal('show');
+            })
+    }
 
+    function deleteCategory(id) {
+        
+        $.get("/Category/Delete", { id: id })
+            .done(function (result) {
+                if (result == 0) {
+                    swal("Hata!", "Islem gerceklestirilemedi!", "warning");
+                }
+                else {
+                    swal("Tebrikler!", "Islem basariyla gerceklesti!", "success");
+                }
+            })
+    }
+</script>

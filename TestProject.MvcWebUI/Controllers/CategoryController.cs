@@ -47,5 +47,76 @@ namespace TestProject.MvcWebUI.Controllers
             }
             return RedirectToAction("GetCategories");
         }
+
+  
+        public IActionResult Edit(int id)
+        {
+            if (id == 0)
+            {
+                return Json(0);
+            }
+            var category = _categoryService.GetById(id);
+            if (category == null)
+            {
+                return Json(0);
+
+            }
+            return Json(category);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(CategoryViewModel categoryViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var categoryIsValid = _categoryService.GetById(categoryViewModel.Category.Id);
+                if (categoryIsValid == null)
+                {
+                    return RedirectToAction("GetCategories");
+
+                }
+                try
+                {
+                    var categoryForAdd = new Category
+                    {
+                        AddedBy = categoryIsValid.AddedBy,
+                        AddedDate = categoryIsValid.AddedDate,
+                        Id = categoryIsValid.Id,
+                        IsActive = categoryViewModel.Category.IsActive,
+                        Name = categoryViewModel.Category.Name
+                    };
+                    _categoryService.Update(categoryForAdd);
+                    return RedirectToAction("GetCategories");
+                }
+                catch (Exception)
+                {
+
+                    return RedirectToAction("GetCategories");
+                }
+            }
+            return RedirectToAction("GetCategories");
+        }
+        public JsonResult Delete(int id)
+        {
+            if (id == 0)
+            {
+                return Json(0);
+            }
+            var categoryIsValid = _categoryService.GetById(id);
+            if (categoryIsValid == null)
+            {
+                return Json(0);
+            }
+            try
+            {
+                _categoryService.Delete(categoryIsValid);
+                return Json(1);
+            }
+            catch (Exception)
+            {
+
+                return Json(0);
+            }
+        }
     }
 }
