@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,16 +13,32 @@ namespace TestProject.MvcWebUI.Controllers
     public class ProductController : Controller
     {
         IProductService _productService;
-        public ProductController(IProductService productService)
+        ICategoryService _categoryService;
+        public ProductController(IProductService productService,ICategoryService categoryService)
         {
             _productService = productService;
+            _categoryService = categoryService;
+        }
+        private List<SelectListItem> LoadCategories()
+        {
+            List<SelectListItem> categories = (
+                from category in _categoryService.GetList()
+                select new SelectListItem
+                {
+                    Value = category.Id.ToString(),
+                    Text = category.Name
+                }
+                ).ToList();
+            return categories;
         }
         public IActionResult GetProducts()
         {
             var productViewModel = new ProductViewModel
             {
-                Products = _productService.GetList()
-            };
+                Products = _productService.GetList(),
+                Categories = LoadCategories()
+
+        };
             return View(productViewModel);
         }
         public IActionResult Add(ProductViewModel productViewModel)
@@ -37,7 +54,7 @@ namespace TestProject.MvcWebUI.Controllers
                 {
                     AddedDate = DateTime.Now,
                     AddedBy = "Sevki Uzun",
-                    CategoryId = 1,
+                    CategoryId = productViewModel.Product.CategoryId,
                     Explanation = productViewModel.Product.Explanation,
                     Height = productViewModel.Product.Height,
                     Name = productViewModel.Product.Name,
