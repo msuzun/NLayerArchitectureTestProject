@@ -199,15 +199,45 @@
             });
     }
     function deleteProduct(id) {
-        $.get("/Product/Delete", { id: id })
-            .done(function (result) {
-                if (result == 0) {
-                    swal("Warning!", "Bir hata oluştu", "warning");
+        swal({
+            title: "Silmek istediğinizden emin misiniz?",
+            Text: "Silinen kayıtlar bir daha listelenmez!",
+            type: "warning",
+            showCancelButton: true,
+            cancelButtonText: "Iptal",
+            confirmButtonClass: "btn-warning",
+            confirmButtonText: "Evet, silebilirsin!",
+            closeOnConfirm: false
+        },
+            function () {
+                $.get("/Product/Delete", { id: id })
+                    .done(function (result) {
+                        if (result == 0) {
+                            swal({
+                                title: "Warning",
+                                text: "Bir hata oluştu",
+                                icon: "warning",
+                                timer: 3000,
+                              
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+                        else {
 
-                }
-                else {
-                    location.reload();
-                }
-            });
+                            swal({
+                                title: "Basarili",
+                                text: "İşleminiz başarılı bir şekilde gerçekleştirildi!",
+                                icon: "success",
+                                timer: 3000, 
+                             
+                            }).then(function () {
+                                location.reload();
+                            });
+                        }
+                    });
+            }
+        );
+
     }
 </script>
