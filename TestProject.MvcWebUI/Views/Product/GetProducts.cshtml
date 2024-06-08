@@ -84,7 +84,11 @@
                             </div>
                             <div class="form-group">
                                 <label for="field-1" class="control-label">Name</label>
-                                <input asp-for="@Model.Product.Width" type="Width" class="form-control" id="field-5" placeholder="e.g. T-Shirts">
+                                <input asp-for="@Model.Product.Width" type="text" class="form-control" id="field-5" placeholder="e.g. T-Shirts">
+                            </div>
+                            <div class="form-group">
+                                <label for="field-6" class="control-label">Explanation</label>
+                                <textarea asp-for="@Model.Product.Explanation" type="text" class="form-control autogrow" id="field-1" placeholder="Write something about product" style="overflow:hidden;word-wrap:break-word; resize:horizontal; height:104px;"></textarea>
                             </div>
                         </div>
                     </div>
@@ -100,7 +104,7 @@
 <div id="product-updating-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <form asp-controller="Product" asp-action="Edit" method="post">
-          
+
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
@@ -155,7 +159,14 @@
                             </div>
                         </div>
                     </div>
-
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-12" class="control-label">Explanation</label>
+                                <textarea asp-for="@Model.Product.Explanation" type="text" class="form-control autogrow" id="explanationForUpdate" placeholder="Write something about product" style="overflow:hidden;word-wrap:break-word; resize:horizontal; height:104px;"></textarea>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
@@ -176,6 +187,7 @@
                 $('#HeightForUpdate').val(result.height);
                 $('#WeightForUpdate').val(result.weight);
                 $('#WidthForUpdate').val(result.width);
+                $('#explanationForUpdate').val(result.explanation);
                 $('#product-updating-modal').modal('show');
             });
     }
