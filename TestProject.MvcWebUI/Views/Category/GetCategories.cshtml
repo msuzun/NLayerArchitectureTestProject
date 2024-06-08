@@ -50,4 +50,32 @@
         </div>
     </div><!-- end col -->
 </div>
+<div id="category-adding-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none;">
+    <div class="modal-dialog">
+        <form asp-controller="Category" asp-action="Add" method="post">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h4 class="modal-title"><i class="fa fa-plus-circle"></i> Add Category</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="field-1" class="control-label">Name</label>
+                                <input asp-for="@Model.Category.Name" type="text" class="form-control" id="field-1" placeholder="e.g. T-Shirts">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default waves-effect" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-purple waves-effect waves-light">Save changes</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div><!-- /.modal -->
+
+
 
