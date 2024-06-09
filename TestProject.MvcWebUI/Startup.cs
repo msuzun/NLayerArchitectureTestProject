@@ -15,6 +15,7 @@ using TestProject.Business.Concreate.Manager;
 using TestProject.DataAccess.Abstract;
 using TestProject.DataAccess.Concreate.EntityFrameworkCore;
 using TestProject.MvcWebUI.Identity;
+using TestProject.MvcWebUI.Services;
 
 namespace TestProject.MvcWebUI
 {
@@ -45,6 +46,10 @@ namespace TestProject.MvcWebUI
 
             services.AddSingleton<IProductImageService, ProductImageManager>();
             services.AddSingleton<IProductImageDal, EfProductImageDal>();
+
+            //services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddSingleton<IEmailConfiguration, EmailConfiguration>();
+            services.AddSingleton<IMailService, MailManager>();
 
             services.Configure<IdentityOptions>(options =>
             {

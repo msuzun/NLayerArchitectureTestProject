@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestProject.MvcWebUI.Identity;
 using TestProject.MvcWebUI.Models.Security;
+using TestProject.MvcWebUI.Services;
 
 namespace TestProject.MvcWebUI.Controllers
 {
@@ -16,13 +17,15 @@ namespace TestProject.MvcWebUI.Controllers
         private RoleManager<AppIdentityRole> _roleManager;
         private SignInManager<AppIdentityUser> _signInManager;
         private IConfiguration _configuration;
+        private IMailService _mailService;
 
-        public SecurityController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager, SignInManager<AppIdentityUser> signInManager, IConfiguration configuration)
+        public SecurityController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager, SignInManager<AppIdentityUser> signInManager, IConfiguration configuration, IMailService mailService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
             _configuration = configuration;
+            _mailService = mailService;
         }
         public IActionResult Login()
         {
@@ -95,6 +98,13 @@ namespace TestProject.MvcWebUI.Controllers
                     var callbackUrl = projectUrl + Url.Action("ConfirmEmail", "Security", new { userId = user.Id, code = confirmationCode });
 
                     // Kullanıcıya mail gönderme
+                    var emailAddressesTo = new List<EmailAdress>();
+                    emailAddressesTo.Add(new EmailAdress { Name = registerViewModel.UserName, Address = registerViewModel.Email });
+                    var emailAddressFrom = new List<EmailAdress>();
+                    emailAddressFrom.Add(new EmailAdress { Name = "Test Project Bilgilendirme", Address = _configuration.GetSection("EmailConfiguration").GetSection("EmailFrom").Value });
+                    _mailService.Send(new EmailMessage { Content = callbackUrl, ToAddresses = emailAddressesTo, Subject = registerViewModel.UserName, FromAddresses = emailAddressFrom });
+
+
                     return RedirectToAction("ConfirmEmailInfo","Security",new { email = user.Email});
                 }
                 return View(registerViewModel);
