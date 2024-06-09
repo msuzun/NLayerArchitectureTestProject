@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,12 +15,14 @@ namespace TestProject.MvcWebUI.Controllers
         private UserManager<AppIdentityUser> _userManager;
         private RoleManager<AppIdentityRole> _roleManager;
         private SignInManager<AppIdentityUser> _signInManager;
+        private IConfiguration _configuration;
 
-        public SecurityController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager, SignInManager<AppIdentityUser> signInManager)
+        public SecurityController(UserManager<AppIdentityUser> userManager, RoleManager<AppIdentityRole> roleManager, SignInManager<AppIdentityUser> signInManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _configuration = configuration;
         }
         public IActionResult LogIn()
         {
@@ -58,5 +61,49 @@ namespace TestProject.MvcWebUI.Controllers
             }
             return View(loginViewModel);
         }
+
+        public async Task<IActionResult> Logout() 
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Login");
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+        public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = new AppIdentityUser
+                {
+                    Email = registerViewModel.Email,
+                    UserName = registerViewModel.UserName,
+                    
+                };
+                var result = await _userManager.CreateAsync(user, registerViewModel.Password);
+                if (result.Succeeded)
+                {
+                    var confirmationCode = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                    var projectUrl = _configuration.GetSection("ProjectSettings").GetSection("ProjectUrl").Value;
+                    var callbackUrl = projectUrl + Url.Action("ConfirmEmail", "Security", new { userId = user.Id, code = confirmationCode });
+
+                    // Kullanıcıya mail gönderme
+                    return RedirectToAction("ConfirmEmailInfo","Security",new { email = user.Email});
+                }
+                return View(registerViewModel);
+            }
+            return View();
+        }
+        public IActionResult ConfirmEmailInfo(string email)
+        {
+            TempData["email"] = email;
+            return View();
+        } 
     }
 }
