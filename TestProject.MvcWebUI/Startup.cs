@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -13,6 +14,7 @@ using TestProject.Business.Abstract;
 using TestProject.Business.Concreate.Manager;
 using TestProject.DataAccess.Abstract;
 using TestProject.DataAccess.Concreate.EntityFrameworkCore;
+using TestProject.MvcWebUI.Identity;
 
 namespace TestProject.MvcWebUI
 {
@@ -28,6 +30,13 @@ namespace TestProject.MvcWebUI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppIdentityDbContext>(options =>
+                                                        options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            
+
+            services.AddIdentity<AppIdentityUser, AppIdentityRole>().AddEntityFrameworkStores<AppIdentityDbContext>().AddDefaultTokenProviders();
+
             services.AddSingleton<ICategoryService, CategoryManager>();
             services.AddSingleton<ICategoryDal, EfCategoryDal>();
 
