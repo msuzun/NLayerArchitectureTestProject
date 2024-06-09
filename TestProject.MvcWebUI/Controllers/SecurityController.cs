@@ -104,6 +104,88 @@ namespace TestProject.MvcWebUI.Controllers
         {
             TempData["email"] = email;
             return View();
-        } 
+        }
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string code) 
+        {
+            if (userId != null || code == null)
+            {
+                RedirectToAction("Home", "Home");
+
+            }
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new ApplicationException("Unable to find user!");
+            }
+            var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (result.Succeeded)
+            {
+                return RedirectToAction("Login");
+            }
+            return RedirectToAction("Home", "Home");
+        }
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+        [HttpPost]
+        public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel forgotPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(forgotPasswordViewModel);
+            }
+            var user = await _userManager.FindByEmailAsync(forgotPasswordViewModel.Email);
+            if (user == null)
+            {
+                return View(forgotPasswordViewModel);
+            }
+            var confirmationCode = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var projectUrl = _configuration.GetSection("ProjectSettings").GetSection("ProjectUrl").Value;
+            var callbackUrl = projectUrl + Url.Action("ResetPassword", "Security", new { userId = user.Id, code = confirmationCode });
+
+            //send email
+
+            return RedirectToAction("ConfirmForgotPasswordInfo", new { email = user.Email });
+
+        }
+        public IActionResult ConfirmForgotPasswordInfo(string email)
+        {
+            TempData["email"] = email;
+            return View();
+        }
+
+        public IActionResult ResetPassword(string userId, string code)
+        {
+            if (userId == null || code == null)
+            {
+                throw new ApplicationException("User id or code must be supplied for password reset!");
+            }
+            var resetPasswordViewModel = new ResetPasswordViewModel
+            {
+                Code = code
+            };
+            return View(resetPasswordViewModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel resetPasswordViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.FindByEmailAsync(resetPasswordViewModel.Email);
+                if (user == null)
+                {
+                    throw new ApplicationException("User not found!");
+                }
+                var result = await _userManager.ResetPasswordAsync(user, resetPasswordViewModel.Code, resetPasswordViewModel.Password);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Login");
+                }
+                return View(resetPasswordViewModel);
+            }
+            return View(resetPasswordViewModel);
+        }
     }
 }
