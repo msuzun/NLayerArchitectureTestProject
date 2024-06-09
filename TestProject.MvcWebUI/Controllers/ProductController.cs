@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Hosting;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System;
@@ -12,6 +13,7 @@ using TestProject.MvcWebUI.Models;
 
 namespace TestProject.MvcWebUI.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         IProductService _productService;

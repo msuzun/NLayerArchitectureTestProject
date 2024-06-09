@@ -24,7 +24,7 @@ namespace TestProject.MvcWebUI.Controllers
             _signInManager = signInManager;
             _configuration = configuration;
         }
-        public IActionResult LogIn()
+        public IActionResult Login()
         {
             return View();
         }
@@ -51,7 +51,7 @@ namespace TestProject.MvcWebUI.Controllers
                         }
                         else
                         {
-                            return View(loginViewModel);
+                            RedirectToAction("Index", "Home");
                         }
                     }
                     ModelState.AddModelError(String.Empty, "Login failed!");
@@ -76,6 +76,7 @@ namespace TestProject.MvcWebUI.Controllers
         {
             return View();
         }
+        [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel registerViewModel)
         {
             if (ModelState.IsValid)
@@ -108,9 +109,9 @@ namespace TestProject.MvcWebUI.Controllers
 
         public async Task<IActionResult> ConfirmEmail(string userId, string code) 
         {
-            if (userId != null || code == null)
+            if (userId == null || code == null)
             {
-                RedirectToAction("Home", "Home");
+                RedirectToAction("Index", "Home");
 
             }
             var user = await _userManager.FindByIdAsync(userId);
@@ -123,7 +124,7 @@ namespace TestProject.MvcWebUI.Controllers
             {
                 return RedirectToAction("Login");
             }
-            return RedirectToAction("Home", "Home");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult ForgotPassword()
         {
