@@ -27,7 +27,7 @@ Projenizi çalıştırmak için gerekli adımlar. Bu adımlar, projenizi başlat
 
 ```bash
 # Repoyu klonlayın
-git clone https://github.com/kullanıcı_adı/proje_adı.git
+git clone https://github.com/kullanıcı_adı/proje_adı.git](https://github.com/msuzun/NLayerArchitectureTestProject.git
 
 # Proje dizinine gidin
 cd proje_adı
