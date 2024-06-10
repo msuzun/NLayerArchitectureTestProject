@@ -1,4 +1,4 @@
-# Proje Adı
+# TESTPROJECT
 
 Bu proje, katmanlı mimari ile geliştirilmiş olup, Repository Pattern ve SOLID prensiplerine uygun olarak tasarlanmıştır. Proje EntityFrameworkCore kullanarak veritabanı işlemlerini gerçekleştirmektedir ve responsive bir template içermektedir. Ayrıca, JsonResult kullanarak veri döndürmekte ve EntityFrameworkCore Identity ile güvenlik işlemlerini gerçekleştirmektedir. Bir mail servisi de projeye dahil edilmiştir.
 
